@@ -89,8 +89,8 @@
       <q-card style="width: 600px; max-width: 60vw;">
         <q-card-section>
           <div class="text-h6">
-            <span v-if="edit==false">Add new Company Bank Account</span>
-            <span v-if="edit==true">Edit Company Bank Account</span>
+            <span v-if="edit==false">Add new Black List</span>
+            <span v-if="edit==true">Edit Black List</span>
             <q-btn round flat dense icon="close" class="float-right" color="grey-8" v-close-popup></q-btn>
           </div>
         </q-card-section>
@@ -263,7 +263,7 @@
 
 
             async deleteRecord (id) {
-              await this.$axios.delete('api/companyaccount/'+this.deleteid)
+              await this.$axios.delete('api/blacklist/'+this.deleteid)
               .then((response)=>{
                 this.getRecord()
               })
@@ -271,7 +271,7 @@
             async editRecord() {
               this.loading = true
               this.customer.bank = this.bank.id
-              await this.$axios.put('api/companyaccount/'+this.editid, this.customer)
+              await this.$axios.put('api/blacklist/'+this.editid, this.customer)
               .then((response)=>{
                 this.getRecord()
               })
@@ -286,7 +286,8 @@
               this.new_customer = true
             },
             async addRecord() {
-              await this.$axios.post('api/companyaccount', this.customer)
+              this.customer.bank = this.bank.id
+              await this.$axios.post('api/blacklist', this.customer)
               .then((response)=>{
                 this.getRecord()
                 //this.data = response.data
@@ -295,7 +296,7 @@
             },
             async getRecord() {
               this.loading = true
-              await this.$axios.get('api/companyaccount')
+              await this.$axios.get('api/blacklist')
               .then((response)=>{
                 this.data = response.data
                 this.loading = false

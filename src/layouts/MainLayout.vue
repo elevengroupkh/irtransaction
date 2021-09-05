@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh LpR lFf">
+  <q-layout view="lHh LpR lFf" v-if="!loading">
     <q-header
       reveal
       :class="$q.dark.isActive ? 'header_dark' : 'header_normal'"
@@ -17,7 +17,7 @@
         <!--            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">-->
         <!--          </q-avatar>-->
 
-        <q-toolbar-title>CRM Admin</q-toolbar-title>
+        <q-toolbar-title></q-toolbar-title>
         <q-btn
           class="q-mr-xs"
           flat
@@ -25,15 +25,6 @@
           @click="$q.dark.toggle()"
           :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
         />
-        <a
-          style="font-size: 25px;"
-          class="float-right q-mr-sm"
-          href="https://github.com/sponsors/mayank091193"
-          target="_blank"
-          title="Donate"
-          ><i class="fas fa-heart" style="color: #eb5daa"></i
-        ></a>
-        <q-btn flat round dense icon="search" class="q-mr-xs" />
         <q-btn
           flat
           round
@@ -61,7 +52,7 @@
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>-->
 
-            <q-toolbar-title>Mayank Patel</q-toolbar-title>
+            <q-toolbar-title>{{ user.email }}</q-toolbar-title>
           </q-toolbar>
           <hr />
           <q-scroll-area style="height:100%;">
@@ -79,11 +70,11 @@
                 </q-item-section>
 
                 <q-item-section>
-                  Dashboard v1
+                  Dashboard
                 </q-item-section>
               </q-item>
 
-              <q-item
+              <!--<q-item
                 active-class="tab-active"
                 to="/dashboard_v2"
                 exact
@@ -115,11 +106,50 @@
                 <q-item-section>
                   Dashboard v3
                 </q-item-section>
-              </q-item>
+              </q-item>-->
+
+              <q-expansion-item
+                icon="pages"
+                label="Transactions"
+              >
+                <q-list class="q-pl-lg">
+                  <q-item
+                    active-class="tab-active"
+                    to="/cashin"
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    v-ripple
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="star" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      Cash In
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    active-class="tab-active"
+                    to="/cashout"
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    v-ripple
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="star" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      Cash Out
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-expansion-item>
 
               <q-expansion-item
                 icon="pages"
                 label="Master Data"
+                v-if="user.role == 1 || user.role == 7"
               >
                 <q-list class="q-pl-lg">
                   <q-item
@@ -184,6 +214,21 @@
                   </q-item>
                   <q-item
                     active-class="tab-active"
+                    to="/blacklist_management"
+                    class="q-ma-sm navigation-item"
+                    clickable
+                    v-ripple
+                  >
+                    <q-item-section avatar>
+                      <q-icon name="star" />
+                    </q-item-section>
+
+                    <q-item-section>
+                      Black List
+                    </q-item-section>
+                  </q-item>
+                  <q-item
+                    active-class="tab-active"
                     to="/user_management"
                     class="q-ma-sm navigation-item"
                     clickable
@@ -200,7 +245,7 @@
                 </q-list>
               </q-expansion-item>
 
-              <q-item
+              <!--<q-item
                 active-class="tab-active"
                 to="/customer_management"
                 class="q-ma-sm navigation-item"
@@ -342,7 +387,7 @@
                 <q-item-section>
                   My Profile
                 </q-item-section>
-              </q-item>
+              </q-item>-->
             </q-list>
           </q-scroll-area>
         </div>
@@ -367,7 +412,9 @@
 export default {
   data() {
     return {
-      left: false
+      left: false,
+      user : '',
+      loading : true,
     };
   },
   methods: {
@@ -384,7 +431,22 @@ export default {
       })
 
 
+    },
+    async getuser() {
+
+      await this.$axios.get('api/user')
+      .then((response)=>{
+
+        this.user = response.data
+        this.$store.commit('auth/setUser', response.data)
+        this.loading = false
+      })
+
+
     }
+  },
+  async mounted() {
+    await this.getuser()
   }
 };
 </script>

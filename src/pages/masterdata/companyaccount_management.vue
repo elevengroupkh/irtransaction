@@ -269,8 +269,9 @@
               })
             },
             async editRecord() {
+              //console.log(this.bank)
               this.loading = true
-              this.customer.bank = this.bank.id
+              this.customer.bank = this.bank
               await this.$axios.put('api/companyaccount/'+this.editid, this.customer)
               .then((response)=>{
                 this.getRecord()
@@ -286,6 +287,7 @@
               this.new_customer = true
             },
             async addRecord() {
+              this.customer.bank = this.bank.id
               await this.$axios.post('api/companyaccount', this.customer)
               .then((response)=>{
                 this.getRecord()
