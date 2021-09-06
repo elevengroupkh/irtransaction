@@ -64,6 +64,7 @@
                 class="q-ma-sm navigation-item"
                 clickable
                 v-ripple
+                v-if="user.role == 1 || user.role == 7"
               >
                 <q-item-section avatar>
                   <q-icon name="dashboard" />
