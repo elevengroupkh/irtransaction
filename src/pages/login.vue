@@ -79,8 +79,8 @@
     export default {
         data() {
             return {
-                username: 'admin',
-                password: 'admin1234'
+                username: '',
+                password: ''
             }
         },
 methods: {
