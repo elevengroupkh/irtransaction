@@ -95,7 +95,7 @@ methods: {
              await this.$axios.post('api/login', {'email':this.username, 'password':this.password})
              .then((response)=>{
                if (response.data.status=='ok'){
-                 this.$router.push('dashboard')
+                 this.$router.push('cashin')
                }
                this.$q.notify({
                  message: 'Login Successful',
