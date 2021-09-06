@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="row q-col-gutter-sm q-ma-xs q-mr-sm">
+    <!--<div class="row q-col-gutter-sm q-ma-xs q-mr-sm">
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <q-card>
           <q-card-section :class="$q.dark.isActive?'blue_dark':'bg-blue-8'" class="text-white">
@@ -148,65 +148,237 @@
           </q-card-section>
         </q-card>
       </div>
-    </div>
+    </div>-->
     <div class="row q-col-gutter-sm q-ma-xs">
       <div class="col-12">
         <q-card flat bordered class="bg-white">
           <q-table
-            title="All Activities"
+            title="Cash in"
             :data="data"
             :hide-header="mode === 'grid'"
             :columns="columns"
             row-key="name"
-            :grid="mode==='grid'"
+            :grid="mode=='grid'"
             :filter="filter"
             :pagination.sync="pagination"
-            :class="$q.dark.isActive?'text-white':'text-grey-8'"
+            :loading="loading"
           >
-            <template v-slot:top-right="props">
-              <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
-                <template v-slot:append>
-                  <q-icon name="search"/>
-                </template>
-              </q-input>
 
-              <q-btn
-                flat
-                round
-                dense
-                :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                @click="props.toggleFullscreen"
-                v-if="mode === 'list'"
-              >
-                <q-tooltip
-                  :disable="$q.platform.is.mobile"
-                  v-close-popup
-                >{{props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen'}}
-                </q-tooltip>
-              </q-btn>
+            <template v-slot:loading>
+              <q-inner-loading showing color="primary" />
+            </template>
 
-              <q-btn
-                flat
-                round
-                dense
-                :icon="mode === 'grid' ? 'list' : 'grid_on'"
-                @click="mode = mode === 'grid' ? 'list' : 'grid'; separator = mode === 'grid' ? 'none' : 'horizontal'"
-                v-if="!props.inFullscreen"
-              >
-                <q-tooltip
-                  :disable="$q.platform.is.mobile"
-                  v-close-popup
-                >{{mode==='grid' ? 'List' : 'Grid'}}
-                </q-tooltip>
-              </q-btn>
+            <<!--template v-slot:body-cell-no="props">
+              <q-td :props="props">
+                {{ props.rowIndex + 1 }}
+              </q-td>
+            </template>
 
-              <q-btn
-                color="primary"
-                icon-right="archive"
-                label="Export to csv"
-                no-caps
-                @click="exportTable"
-              />
+            <template v-slot:body-cell-date="props">
+              <q-td :props="props">
+                {{ formatdatedate(props.row.created_at) }}
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-cpname="props">
+              <q-td :props="props">
+                {{ props.row.create_by }}-{{ props.row.create_by_firstname }}
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-timein="props">
+              <q-td :props="props">
+                {{ formatdatetime(props.row.created_at) }}
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-timedone="props">
+              <q-td :props="props">
+                {{ formatdatetime(props.row.updated_at) }}
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-channel="props">
+              <q-td :props="props">
+                MANUAL
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-bank_name="props">
+              <q-td :props="props">
+                <span v-if="props.row.transaction_type=='cashin'">
+                  {{ props.row.from_bank }}
+                </span>
+                <span v-if="props.row.transaction_type=='cashout'">
+                  {{ props.row.to_bank }}
+                </span>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-customer_account="props">
+              <q-td :props="props">
+                <span v-if="props.row.transaction_type=='cashin'">
+                  {{ props.row.from_account_no }}
+                </span>
+                <span v-if="props.row.transaction_type=='cashout'">
+                  {{ props.row.to_account_no }}
+                </span>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-starlight_account_no="props">
+              <q-td :props="props">
+                <span v-if="props.row.transaction_type=='cashin'">
+                  {{ props.row.to_company_account }}
+                </span>
+                <span v-if="props.row.transaction_type=='cashout'">
+                  {{ props.row.from_company_account }}
+                </span>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-transaction_process="props">
+              <q-td :props="props">
+                <span v-if="props.row.transaction_type=='cashin'">
+                  CASH IN
+                </span>
+                <span v-if="props.row.transaction_type=='cashout'">
+                  CASH OUT
+                </span>
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-transaction_method="props">
+              <q-td :props="props">
+                Player
+              </q-td>
+            </template>-->
+
+            <template v-slot:body-cell-status="props">
+              <q-td :props="props">
+                <q-chip
+                  :color="(props.row.status == 'Complete')?'green':(props.row.status == 'Pending'?'red':'grey')"
+                  text-color="white"
+                  dense
+                  class="text-weight-bolder"
+                  square
+                  style="width: 85px"
+                >
+                  <span v-if="props.row.status=='Complete'">Complete</span>
+                  <span v-if="props.row.status=='Cancel'">Cancel</span>
+                  <span v-if="props.row.status=='Pending'">Pending</span>
+                </q-chip>
+              </q-td>
+            </template>
+
+            <template v-slot:top="props">
+              <div class="q-table__title">All Activities</div>
+              <div class="">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row align-items-center">
+                      <q-select
+                        v-model="formsearch.reqType"
+                        :options="reqtypeoptions"
+                        option-value="name"
+                        option-label="value"
+                        filled
+                        label="Type"
+                        stack-label
+                        style="width: 150px"
+                      />
+
+                      <q-select
+                        v-model="formsearch.reqShift"
+                        :options="shiftoptions"
+                        option-value="id"
+                        option-label="name"
+                        filled
+                        label="Shift"
+                        stack-label
+                        style="width: 200px"
+                        class="q-mx-sm"
+                        clearable
+                      />
+
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row text-right q-mt-md">
+                  <div class="col-12">
+                    <div class="row align-items-center">
+
+                      <q-select
+                        v-model="formsearch.reqStatus"
+                        :options="reqstatusoptions"
+                        option-value="name"
+                        option-label="value"
+                        filled
+                        label="Status"
+                        stack-label
+                        style="width: 150px"
+                        class="q-mx-sm"
+                      />
+                      <q-input  label="Start" stack-label v-model="formsearch.reqCreateDateFrom" filled type="date" class="q-mx-sm"/>
+                      <q-input  label="End" stack-label v-model="formsearch.reqCreateDateTo" filled type="date" class="q-mx-sm"/>
+
+                    <q-btn
+                      color="green"
+                      icon-right="search"
+                      label="filter"
+                      @click.prevent="getRecord()"
+                    />
+                    </div>
+                  </div>
+                </div>
+                <div class="row text-right q-mt-md">
+
+                  <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
+                    <template v-slot:append>
+                      <q-icon name="search"/>
+                    </template>
+                  </q-input>
+
+                  <q-btn
+                    flat
+                    round
+                    dense
+                    :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                    @click="props.toggleFullscreen"
+                    v-if="mode === 'list'"
+                  >
+                    <q-tooltip
+                      :disable="$q.platform.is.mobile"
+                      v-close-popup
+                    >{{props.inFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen'}}
+                    </q-tooltip>
+                  </q-btn>
+
+                  <q-btn
+                    flat
+                    round
+                    dense
+                    :icon="mode === 'grid' ? 'list' : 'grid_on'"
+                    @click="mode = mode === 'grid' ? 'list' : 'grid'; separator = mode === 'grid' ? 'none' : 'horizontal'"
+                    v-if="!props.inFullscreen"
+                  >
+                    <q-tooltip
+                      :disable="$q.platform.is.mobile"
+                      v-close-popup
+                    >{{mode==='grid' ? 'List' : 'Grid'}}
+                    </q-tooltip>
+                  </q-btn>
+
+                  <q-btn
+                    color="primary"
+                    icon-right="archive"
+                    label="Export to csv"
+                    no-caps
+                    @click="exportTable"
+                  />
+                </div>
+              </div>
             </template>
           </q-table>
         </q-card>
@@ -219,6 +391,7 @@
     import Vue from 'vue';
     import IEcharts from 'vue-echarts-v3/src/full.js';
     import {exportFile} from 'quasar';
+    import { date } from 'quasar'
 
     Vue.component('IEcharts', IEcharts);
 
@@ -266,65 +439,150 @@
                     ]
                 },
                 columns: [
-                    {name: 'activity_id', align: 'left', label: 'Activity ID', field: 'activity_id', sortable: true},
                     {
-                        name: 'desc',
+                        name: "no",
+                        label: "No.",
+                        align: "left",
+                        field: "no",
+                        sortable: true
+                    },
+                    {
+                        name: "date",
+                        label: "Date",
+                        align: "left",
+                        field: "date",
+                        sortable: true
+                    },
+                    {
+                        name: "shift",
+                        label: "Shift",
+                        align: "left",
+                        field: "shift_name",
+                        sortable: true
+                    },
+                    {
+                        name: "cpname",
+                        label: "CP Name and ID",
+                        align: "left",
+                        field: "cpname",
+                        sortable: true
+                    },
+                    {
+                        name: "ordernumber",
                         required: true,
-                        label: 'Activity Name',
-                        align: 'left',
-                        field: row => row.name,
+                        label: "Order No",
+                        align: "left",
+                        field: "ordernumber",
                         sortable: true
                     },
-                    {name: 'regarding', align: 'left', label: 'Regarding', field: 'regarding', sortable: true},
-                    {name: 'owner', align: 'left', label: 'Owner', field: 'owner', sortable: true},
                     {
-                        name: 'creation_date',
-                        align: 'left',
-                        label: 'Creation Date',
-                        field: 'creation_date',
+                        name: "timein",
+                        label: "Time-In",
+                        align: "left",
+                        field: "timein",
                         sortable: true
-                    }
+                    },
+                    {
+                        name: "timedone",
+                        label: "Time-Done",
+                        align: "left",
+                        field: "timedone",
+                        sortable: true
+                    },
+                    {
+                        name: "channel",
+                        label: "Channel",
+                        align: "left",
+                        field: "channel",
+                        sortable: true
+                    },
+                    {
+                        name: "username",
+                        align: "left",
+                        label: "IR Username",
+                        field: "username",
+                        sortable: true
+                    },
+                    {
+                        name: "customername",
+                        align: "left",
+                        label: "Customer Name",
+                        field: "customername",
+                        sortable: true
+                    },
+                    {
+                        name: "bank_name",
+                        align: "left",
+                        label: "Bank Name",
+                        field: "bank_name",
+                        sortable: true
+                    },
+                    {
+                        name: "customer_account",
+                        align: "left",
+                        label: "Customer Account",
+                        field: "customer_account",
+                        sortable: true
+                    },
+                    {
+                        name: "starlight_account_no",
+                        align: "left",
+                        label: "Starlight Account no",
+                        field: "starlight_account_no",
+                        sortable: true
+                    },
+
+                    {
+                        name: "amount",
+                        align: "left",
+                        label: "amount",
+                        field: "amount",
+                        sortable: true
+                    },
+                    {
+                        name: "transaction_process",
+                        align: "left",
+                        label: "Transaction Process",
+                        field: "transaction_process",
+                        sortable: true
+                    },
+                    {
+                        name: "transaction_method",
+                        align: "left",
+                        label: "Transaction Method",
+                        field: "transaction_method",
+                        sortable: true
+                    },
+                    {
+                        name: "status",
+                        align: "left",
+                        label: "Status",
+                        field: "status",
+                        sortable: true
+                    },
+                    {
+                        name: "note",
+                        align: "left",
+                        label: "Cancel Code",
+                        field: "note",
+                        sortable: true
+                    },
                 ],
-                data: [
-                    {
-                        activity_id: "C001",
-                        name: 'Advanced communications',
-                        regarding: 'Presentation',
-                        owner: 'John',
-                        creation_date: '12-09-2019'
-                    },
-                    {
-                        activity_id: "C002",
-                        name: 'New drug discussion',
-                        regarding: 'Meeting',
-                        owner: 'John',
-                        creation_date: '09-02-2019'
-                    },
-                    {
-                        activity_id: "C003",
-                        name: 'Universal services discussion',
-                        regarding: 'Meeting',
-                        owner: 'John',
-                        creation_date: '03-25-2019'
-                    },
-                    {
-                        activity_id: "C004",
-                        name: 'Add on business',
-                        regarding: 'Business',
-                        owner: 'John',
-                        creation_date: '03-18-2019'
-                    },
-                    {
-                        activity_id: "C005",
-                        name: 'Promotional Activity',
-                        regarding: 'Personal',
-                        owner: 'John',
-                        creation_date: '04-09-2019'
-                    },
-                ],
+                data: [],
                 pagination: {
                     rowsPerPage: 10
-                }
+                },
+                loading : true,
+                formsearch : {
+                  reqType : 'all',
+                  reqStatus : 'all',
+                  reqShift : '',
+                  reqCreateDateFrom : date.formatDate(date.subtractFromDate(Date.now(), { days: 7}), 'YYYY-MM-DD'),
+                  reqCreateDateTo : date.formatDate(Date.now(), 'YYYY-MM-DD'),
+                },
+                reqstatusoptions : ['all','requested','approved','cancelled'],
+                reqtypeoptions : ['all','cashin','cashout'],
+                shiftoptions : [],
             }
         },
         computed: {
@@ -594,7 +852,72 @@
                         icon: 'warning'
                     })
                 }
-            }
+            },
+            formatdate(dateshow){
+              return date.formatDate(dateshow, 'YYYY-MM-DD HH:mm:ss')
+            },
+            formatdatedate(dateshow){
+              return date.formatDate(dateshow, 'DD-MMM-YY')
+            },
+            formatdatetime(dateshow){
+              return date.formatDate(dateshow, 'hh:mm A')
+            },
+            async getRecord() {
+              this.loading = true
+              //this.formsearch.reqStatus = this.reqStatus
+              let searchshift = ''
+              try{
+                if (typeof this.formsearch.reqShift.id != 'undefined'){
+                  searchshift = this.formsearch.reqShift.id
+                }
+              }catch{
+                searchshift = ''
+              }
+
+
+              await this.$axios.get('api/transaction?transaction_type='+this.formsearch.reqType+'&status='+this.formsearch.reqStatus+'&shift='+searchshift+'&startdate='+this.formsearch.reqCreateDateFrom+'&enddate='+this.formsearch.reqCreateDateTo+'&order=asc&active=1')
+              .then((response)=>{
+                this.data = response.data.transaction
+                this.shiftoptions = response.data.shift
+
+                this.data.forEach((element, index) => {
+                  this.data[index].no = index+1
+                  this.data[index].date = this.formatdatedate(this.data[index].created_at)
+                  this.data[index].cpname = this.data[index].create_by+"-"+this.data[index].create_by_firstname
+                  this.data[index].timein = this.formatdatetime(this.data[index].created_at)
+                  this.data[index].timedone = this.formatdatetime(this.data[index].updated_at)
+                  this.data[index].channel = 'MANUAL'
+                  if (this.data[index].transaction_type=='cashin'){
+                    this.data[index].bank_name = this.data[index].from_bank
+                    this.data[index].customer_account = this.data[index].from_account_no
+                    this.data[index].starlight_account_no = this.data[index].to_company_account
+                    this.data[index].transaction_process = 'CASH IN'
+                  }
+                  if (this.data[index].transaction_type=='cashout'){
+                    this.data[index].bank_name = this.data[index].to_bank
+                    this.data[index].customer_account = this.data[index].to_account_no
+                    this.data[index].starlight_account_no = this.data[index].from_company_account
+                    this.data[index].transaction_process = 'CASH OUT'
+                  }
+                  this.data[index].transaction_method = 'Player'
+                  if (this.data[index].status == 'approved'){
+                    this.data[index].status = 'Complete'
+                  }
+                  if (this.data[index].status == 'cancelled'){
+                    this.data[index].status = 'Cancel'
+                  }
+                  if (this.data[index].status == 'requested'){
+                    this.data[index].status = 'Pending'
+                  }
+                })
+                this.loading = false
+              })
+            },
+        },
+        async mounted() {
+          //await this.getCompanyAccount()
+          //await this.getBank()
+          await this.getRecord()
         }
     }
 </script>
@@ -610,5 +933,21 @@
 
   .orange_dark {
     background-color: #64350e;
+  }
+</style>
+
+<style>
+  .q-chip__content {
+    display: block;
+    text-align: center;
+  }
+  .q-td .q-chip{
+    width: auto !important;
+  }
+  .q-table__top{
+    justify-content: space-between;
+  }
+  .w-100{
+    width: 100%;
   }
 </style>

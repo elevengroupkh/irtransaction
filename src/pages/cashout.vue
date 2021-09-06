@@ -28,7 +28,7 @@
 
         <template v-slot:body-cell-from_company_account="props">
           <q-td :props="props">
-            {{ props.row.to_company_bank+' '+props.row.from_company_account }}
+            {{ props.row.from_company_bank+' '+props.row.from_company_account }}
           </q-td>
         </template>
 
@@ -88,7 +88,7 @@
             </div>
             <div class="row text-right q-mt-md">
 
-              <q-btn @click="addtransaction" outline color="primary" label="Add Cash out" class="q-mr-xs" v-if="userRole=='csstaff'"/>
+              <q-btn @click="addtransaction" outline color="primary" label="Add Cash out" class="q-mr-xs" v-if="userRole=='csstaff' || userRole=='admin'"/>
 
               <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
                 <template v-slot:append>
@@ -215,6 +215,12 @@
                   <q-input dense outlined v-model="customer.username" />
                 </q-item-section>
               </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label class="q-pb-xs">Customer Name</q-item-label>
+                  <q-input dense outlined v-model="customer.customername" />
+                </q-item-section>
+              </q-item>
               <label style="color:red">{{ errormessge }}</label>
             </q-list>
           </q-form>
@@ -294,7 +300,7 @@
                 Transfer from :
               </div>
               <div class="col-8 text-left">
-                {{ from_company_account.bank_name+' '+from_company_account.accountno }}
+                {{ confirmrow.from_company_bank }} {{ confirmrow.from_company_account }}
               </div>
             </div>
             <div class="row">
@@ -327,7 +333,7 @@
 
 
           <q-card-actions align="right" class="text-primary">
-            <q-btn v-if="updatestatus=='cancelled'" label="Cancel" color="warning" @click.prevent="changestatus()" />
+            <q-btn v-if="updatestatus=='cancelled'" label="Cancel" color="warning" @click.prevent="changestatus()" :disable="buttoncanceldisable"/>
             <q-btn v-if="updatestatus=='approved'" label="Approve" color="primary" @click.prevent="changestatus()" />
           </q-card-actions>
         </div>
@@ -363,7 +369,8 @@
                   amount : '',
                   transaction_id : '',
                   from_company_account : '',
-                  username : ''
+                  username : '',
+                  customername : '',
                 },
                 new_customer: false,
                 mode: "list",
@@ -518,6 +525,15 @@
               return true
             }
 
+          },
+          buttoncanceldisable() {
+            if (
+              this.note != ''
+            ){
+              return false
+            }else{
+              return true
+            }
           }
         },
         methods: {
