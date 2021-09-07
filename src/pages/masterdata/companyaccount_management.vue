@@ -271,7 +271,7 @@
             async editRecord() {
               //console.log(this.bank)
               this.loading = true
-              this.customer.bank = this.bank
+              this.customer.bank = this.bank.id
               await this.$axios.put('api/companyaccount/'+this.editid, this.customer)
               .then((response)=>{
                 this.getRecord()
