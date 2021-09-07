@@ -280,7 +280,7 @@
               this.edit = true
               this.customer.accountno = row.accountno
               //this.customer.bank = row.bank_id
-              this.bank = row.bank_id
+              this.bank = this.bankoption.filter(e => e.id == row.bank_id)[0]
               this.customer.active = row.active
               this.editid = row.id
               this.new_customer = true
