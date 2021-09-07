@@ -37,7 +37,7 @@
         </template>
 
         <template v-slot:top-right="props">
-          <q-btn @click="edit = false; customer={active : true}; new_customer=true" outline color="primary" label="Add New" class="q-mr-xs"/>
+          <q-btn @click="bank=''; edit = false; customer={active : true}; new_customer=true" outline color="primary" label="Add New" class="q-mr-xs"/>
 
           <q-input outlined dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
