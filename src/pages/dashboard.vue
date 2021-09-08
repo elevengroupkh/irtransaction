@@ -889,14 +889,14 @@
                   this.data[index].channel = 'MANUAL'
                   if (this.data[index].transaction_type=='cashin'){
                     this.data[index].bank_name = this.data[index].from_bank
-                    this.data[index].customer_account = this.data[index].from_account_no
-                    this.data[index].starlight_account_no = this.data[index].to_company_account
+                    this.data[index].customer_account = '\''+this.data[index].from_account_no
+                    this.data[index].starlight_account_no = '\''+this.data[index].to_company_account
                     this.data[index].transaction_process = 'CASH IN'
                   }
                   if (this.data[index].transaction_type=='cashout'){
                     this.data[index].bank_name = this.data[index].to_bank
-                    this.data[index].customer_account = this.data[index].to_account_no
-                    this.data[index].starlight_account_no = this.data[index].from_company_account
+                    this.data[index].customer_account = '\''+this.data[index].to_account_no
+                    this.data[index].starlight_account_no = '\''+this.data[index].from_company_account
                     this.data[index].transaction_process = 'CASH OUT'
                   }
                   this.data[index].transaction_method = 'Player'
