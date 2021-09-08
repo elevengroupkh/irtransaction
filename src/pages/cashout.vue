@@ -425,6 +425,13 @@
                         sortable: true
                     },
                     {
+                        name: "customername",
+                        align: "left",
+                        label: "Customer Name",
+                        field: "customername",
+                        sortable: true
+                    },
+                    {
                         name: "status",
                         align: "left",
                         label: "Status",
