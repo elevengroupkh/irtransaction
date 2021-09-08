@@ -153,7 +153,7 @@
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Ordernumber</q-item-label>
+                  <q-item-label class="q-pb-xs">Order #</q-item-label>
                   <q-input dense outlined v-model="customer.ordernumber" />
                 </q-item-section>
               </q-item>
