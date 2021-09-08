@@ -55,14 +55,14 @@
                   @click="loginNotify"
                 />
 
-                <a
+                <!--<a
                   style="font-size: 30px;"
                   class="float-right"
                   href="https://github.com/sponsors/mayank091193"
                   target="_blank"
                   title="Donate"
                   ><i class="fas fa-heart" style="color: #eb5daa"></i
-                ></a>
+                ></a>-->
               </div>
             </q-form>
           </q-card-section>

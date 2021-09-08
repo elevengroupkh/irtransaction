@@ -129,7 +129,7 @@
                       Cash In
                     </q-item-section>
                   </q-item>
-                  <q-item
+                  <!--<q-item
                     active-class="tab-active"
                     to="/cashout"
                     class="q-ma-sm navigation-item"
@@ -143,7 +143,7 @@
                     <q-item-section>
                       Cash Out
                     </q-item-section>
-                  </q-item>
+                  </q-item>-->
                 </q-list>
               </q-expansion-item>
 
