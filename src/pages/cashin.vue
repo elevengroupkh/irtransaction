@@ -325,6 +325,8 @@
                 {{ confirmrow.created_at }}
               </div>
             </div>
+            <q-item-label class="q-pb-xs">Real Amount : </q-item-label>
+            <q-input type="number" min="0" dense v-model="real_amount" autofocus />
             <q-item-label class="q-pb-xs">Note : </q-item-label>
             <q-input dense v-model="note" autofocus />
           </q-card-section>
@@ -400,6 +402,13 @@
                         align: "left",
                         label: "amount",
                         field: "amount",
+                        sortable: true
+                    },
+                    {
+                        name: "real_amount",
+                        align: "left",
+                        label: "Real amount",
+                        field: "real_amount",
                         sortable: true
                     },
                     {
@@ -500,11 +509,13 @@
 
                 prompt : false,
                 note : '',
+                real_amount : '',
                 updatestatus : '',
                 confirmrow : '',
                 updatestatusvalue : {
                   note : '',
                   status : '',
+                  real_amount : '',
                 },
                 changestatusloading : false,
                 errormessge : '',
@@ -651,6 +662,7 @@
             async changestatus() {
               this.changestatusloading = true
               this.updatestatusvalue.note = this.note
+              this.updatestatusvalue.real_amount = this.real_amount
               this.updatestatusvalue.status = this.updatestatus
               await this.$axios.put('api/transaction/changestatus/'+this.confirmrow.id, this.updatestatusvalue)
               .then((response)=>{

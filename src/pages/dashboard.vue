@@ -541,6 +541,13 @@
                         sortable: true
                     },
                     {
+                        name: "real_amount",
+                        align: "left",
+                        label: "Real amount",
+                        field: "real_amount",
+                        sortable: true
+                    },
+                    {
                         name: "transaction_process",
                         align: "left",
                         label: "Transaction Process",
