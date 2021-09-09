@@ -479,7 +479,7 @@
                 ],
                 data: [],
                 pagination: {
-                    rowsPerPage: 10
+                    rowsPerPage: 100
                 },
                 loading : true,
                 edit : false,

@@ -162,6 +162,7 @@
             :filter="filter"
             :pagination.sync="pagination"
             :loading="loading"
+
           >
 
             <template v-slot:loading>
@@ -570,7 +571,7 @@
                 ],
                 data: [],
                 pagination: {
-                    rowsPerPage: 10
+                    rowsPerPage: 100
                 },
                 loading : true,
                 formsearch : {
