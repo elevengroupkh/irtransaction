@@ -671,6 +671,7 @@
                 this.getRecord()
                 this.changestatusloading = false
                 this.prompt = false
+                this.real_amount = ''
               })
             },
             addtransaction() {
