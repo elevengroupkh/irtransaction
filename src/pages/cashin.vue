@@ -325,8 +325,10 @@
                 {{ confirmrow.created_at }}
               </div>
             </div>
-            <q-item-label class="q-pb-xs">Real Amount : </q-item-label>
-            <q-input type="number" min="0" dense v-model="real_amount" autofocus />
+            <div class="q-pb-xs" v-if="updatestatus=='approved'">
+              <q-item-label class="q-pb-xs">Real Amount : </q-item-label>
+              <q-input type="number" min="0" dense v-model="real_amount" />
+            </div>
             <q-item-label class="q-pb-xs">Note : </q-item-label>
             <q-input dense v-model="note" autofocus />
           </q-card-section>
