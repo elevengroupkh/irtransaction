@@ -687,6 +687,8 @@
                 to_company_account : '',
                 username : ''
               };
+              this.to_company_account = '';
+              this.bank = '';
               this.new_customer = true
             }
         },
