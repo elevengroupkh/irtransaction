@@ -20,8 +20,8 @@
         <template v-slot:body-cell-action="props">
           <q-td :props="props">
             <div v-if="props.row.status=='requested' && (userRole=='csapproval' || userRole=='admin')">
-              <q-btn color="primary" @click="updatestatus = 'approved';  confirmdialog(props.row)" label="Approve" class="q-mr-sm"/>
-              <q-btn color="warning" @click="updatestatus = 'cancelled';  confirmdialog(props.row)" label="Cancel" />
+              <q-btn color="primary" @click="updatestatus = 'approved';  confirmdialog(props.row)" :label="$t('Approve')" class="q-mr-sm"/>
+              <q-btn color="warning" @click="updatestatus = 'cancelled';  confirmdialog(props.row)" :label="$t('Cancel')" />
             </div>
           </q-td>
         </template>
@@ -153,13 +153,13 @@
             <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Order #</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('Order #') }}</q-item-label>
                   <q-input dense outlined v-model="customer.ordernumber" />
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">From Bank</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('From Bank') }}</q-item-label>
                   <q-select v-model="bank"
                     :options="bankoption"
                     option-value="id"
@@ -170,25 +170,25 @@
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">From Account no</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('From Account no') }}</q-item-label>
                   <q-input dense outlined v-model="customer.from_account_no" />
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Amount</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('Amount') }}</q-item-label>
                   <q-input type="number" min="0" dense outlined v-model="customer.amount" />
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Transaction Id</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('Transaction Id') }}</q-item-label>
                   <q-input dense outlined v-model="customer.transaction_id" />
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">To Company Account no</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('To Company Account no') }}</q-item-label>
                   <q-select
                     v-model="to_company_account"
                     :options="companybankoption"
@@ -209,13 +209,13 @@
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Username</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('Username') }}</q-item-label>
                   <q-input dense outlined v-model="customer.username" />
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-item-label class="q-pb-xs">Customer Name</q-item-label>
+                  <q-item-label class="q-pb-xs">{{ $t('Customer Name') }}</q-item-label>
                   <q-input dense outlined v-model="customer.customername" />
                 </q-item-section>
               </q-item>
@@ -226,7 +226,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-teal">
-          <q-btn v-if="edit==false" label="Save" @click.prevent="addRecord" color="primary" :disable="buttondisable" :loading="submitting">
+          <q-btn v-if="edit==false" :label="$t('Save')" @click.prevent="addRecord" color="primary" :disable="buttondisable" :loading="submitting">
             <template v-slot:loading>
               <q-spinner-facebook />
             </template>
@@ -329,14 +329,14 @@
               <q-item-label class="q-pb-xs">Real Amount : </q-item-label>
               <q-input type="number" min="0" dense v-model="real_amount" />
             </div>
-            <q-item-label class="q-pb-xs">Note : </q-item-label>
+            <q-item-label class="q-pb-xs">{{ $t('Note') }} : </q-item-label>
             <q-input dense v-model="note" autofocus />
           </q-card-section>
 
 
           <q-card-actions align="right" class="text-primary">
-            <q-btn v-if="updatestatus=='cancelled'" label="Cancel" color="warning" @click.prevent="changestatus()" :disable="buttoncanceldisable" />
-            <q-btn v-if="updatestatus=='approved'" label="Approve" color="primary" @click.prevent="changestatus()" />
+            <q-btn v-if="updatestatus=='cancelled'" :label="$t('Cancel')" color="warning" @click.prevent="changestatus()" :disable="buttoncanceldisable" />
+            <q-btn v-if="updatestatus=='approved'" :label="$t('Approve')" color="primary" @click.prevent="changestatus()" />
           </q-card-actions>
         </div>
       </q-card>

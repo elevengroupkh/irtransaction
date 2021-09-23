@@ -25,6 +25,16 @@
           @click="$q.dark.toggle()"
           :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
         />
+        <q-select
+          v-model="lang"
+          :options="langOptions"
+          dense
+          outlined
+          emit-value
+          map-options
+          options-dense
+          bg-color="white"
+        />
         <q-btn
           flat
           round
@@ -32,6 +42,7 @@
           icon="fas fa-sign-out-alt"
           @click="logoutNotify"
         />
+
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -416,7 +427,17 @@ export default {
       left: false,
       user : '',
       loading : true,
+      lang: this.$i18n.locale,
+      langOptions: [
+        { value: 'en-US', label: 'English' },
+        { value: 'kh', label: 'Khmer' }
+      ]
     };
+  },
+  watch: {
+    lang(lang) {
+      this.$i18n.locale = lang
+    }
   },
   methods: {
     async logoutNotify() {
