@@ -1,4 +1,4 @@
-import enUS from './en-US'
+import enUS from './en-us'
 import kh from './kh'
 
 export default {
