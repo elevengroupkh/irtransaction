@@ -643,7 +643,7 @@
               })
             },
             async getRecord() {
-              this.loading = false
+              this.loading = true
               //this.formsearch.reqStatus = this.reqStatus
               let date1 = new Date(this.formsearch.reqCreateDateFrom)
               let date2 = new Date(this.formsearch.reqCreateDateTo)
