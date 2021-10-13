@@ -342,6 +342,14 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="warning">
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm">Please select only 1-2 days.</span>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -522,6 +530,7 @@
                 changestatusloading : false,
                 errormessge : '',
                 submitting : false,
+                warning : false,
             };
         },
         computed: {
@@ -634,15 +643,27 @@
               })
             },
             async getRecord() {
-              this.loading = true
+              this.loading = false
               //this.formsearch.reqStatus = this.reqStatus
-              await this.$axios.get('api/transaction?transaction_type=cashin&status='+this.formsearch.reqStatus+'&startdate='+this.formsearch.reqCreateDateFrom+'&enddate='+this.formsearch.reqCreateDateTo+'&active=1')
-              .then((response)=>{
-                this.data = response.data.transaction
-                this.bankoption = response.data.bank
-                this.companybankoption = response.data.companyaccount
+              let date1 = new Date(this.formsearch.reqCreateDateFrom)
+              let date2 = new Date(this.formsearch.reqCreateDateTo)
+              let unit = 'days'
+
+              let diff = date.getDateDiff(date1, date2, unit)
+              //console.log(Math.abs(diff))
+              if (Math.abs(diff) <= 2){
+                await this.$axios.get('api/transaction?transaction_type=cashin&status='+this.formsearch.reqStatus+'&startdate='+this.formsearch.reqCreateDateFrom+'&enddate='+this.formsearch.reqCreateDateTo+'&active=1')
+                .then((response)=>{
+                  this.data = response.data.transaction
+                  this.bankoption = response.data.bank
+                  this.companybankoption = response.data.companyaccount
+                  this.loading = false
+                })
+              }else{
+                this.warning = true
                 this.loading = false
-              })
+              }
+
             },
             async getBank() {
               await this.$axios.get('api/bank')

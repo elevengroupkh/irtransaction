@@ -385,6 +385,14 @@
         </q-card>
       </div>
     </div>
+
+    <q-dialog v-model="warning">
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm">Please select only 1-2 days.</span>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -585,12 +593,13 @@
                   reqType : 'all',
                   reqStatus : 'all',
                   reqShift : '',
-                  reqCreateDateFrom : date.formatDate(date.subtractFromDate(Date.now(), { days: 7}), 'YYYY-MM-DD'),
+                  reqCreateDateFrom : date.formatDate(date.subtractFromDate(Date.now(), { days: 2}), 'YYYY-MM-DD'),
                   reqCreateDateTo : date.formatDate(Date.now(), 'YYYY-MM-DD'),
                 },
                 reqstatusoptions : ['all','requested','approved','cancelled'],
                 reqtypeoptions : ['all','cashin','cashout'],
                 shiftoptions : [],
+                warning : false,
             }
         },
         computed: {
@@ -882,44 +891,55 @@
                 searchshift = ''
               }
 
+              let date1 = new Date(this.formsearch.reqCreateDateFrom)
+              let date2 = new Date(this.formsearch.reqCreateDateTo)
+              let unit = 'days'
 
-              await this.$axios.get('api/transaction?transaction_type='+this.formsearch.reqType+'&status='+this.formsearch.reqStatus+'&shift='+searchshift+'&startdate='+this.formsearch.reqCreateDateFrom+'&enddate='+this.formsearch.reqCreateDateTo+'&order=asc&active=1')
-              .then((response)=>{
-                this.data = response.data.transaction
-                this.shiftoptions = response.data.shift
+              let diff = date.getDateDiff(date1, date2, unit)
+              //console.log(Math.abs(diff))
+              if (Math.abs(diff) <= 2){
 
-                this.data.forEach((element, index) => {
-                  this.data[index].no = index+1
-                  this.data[index].date = this.formatdatedate(this.data[index].created_at)
-                  this.data[index].cpname = this.data[index].create_by+"-"+this.data[index].create_by_firstname
-                  this.data[index].timein = this.formatdatetime(this.data[index].created_at)
-                  this.data[index].timedone = this.formatdatetime(this.data[index].updated_at)
-                  this.data[index].channel = 'MANUAL'
-                  if (this.data[index].transaction_type=='cashin'){
-                    this.data[index].bank_name = this.data[index].from_bank
-                    this.data[index].customer_account = '\''+this.data[index].from_account_no
-                    this.data[index].starlight_account_no = '\''+this.data[index].to_company_account
-                    this.data[index].transaction_process = 'CASH IN'
-                  }
-                  if (this.data[index].transaction_type=='cashout'){
-                    this.data[index].bank_name = this.data[index].to_bank
-                    this.data[index].customer_account = '\''+this.data[index].to_account_no
-                    this.data[index].starlight_account_no = '\''+this.data[index].from_company_account
-                    this.data[index].transaction_process = 'CASH OUT'
-                  }
-                  this.data[index].transaction_method = 'Player'
-                  if (this.data[index].status == 'approved'){
-                    this.data[index].status = 'Complete'
-                  }
-                  if (this.data[index].status == 'cancelled'){
-                    this.data[index].status = 'Cancel'
-                  }
-                  if (this.data[index].status == 'requested'){
-                    this.data[index].status = 'Pending'
-                  }
+                await this.$axios.get('api/transaction?transaction_type='+this.formsearch.reqType+'&status='+this.formsearch.reqStatus+'&shift='+searchshift+'&startdate='+this.formsearch.reqCreateDateFrom+'&enddate='+this.formsearch.reqCreateDateTo+'&order=asc&active=1')
+                .then((response)=>{
+                  this.data = response.data.transaction
+                  this.shiftoptions = response.data.shift
+
+                  this.data.forEach((element, index) => {
+                    this.data[index].no = index+1
+                    this.data[index].date = this.formatdatedate(this.data[index].created_at)
+                    this.data[index].cpname = this.data[index].create_by+"-"+this.data[index].create_by_firstname
+                    this.data[index].timein = this.formatdatetime(this.data[index].created_at)
+                    this.data[index].timedone = this.formatdatetime(this.data[index].updated_at)
+                    this.data[index].channel = 'MANUAL'
+                    if (this.data[index].transaction_type=='cashin'){
+                      this.data[index].bank_name = this.data[index].from_bank
+                      this.data[index].customer_account = '\''+this.data[index].from_account_no
+                      this.data[index].starlight_account_no = '\''+this.data[index].to_company_account
+                      this.data[index].transaction_process = 'CASH IN'
+                    }
+                    if (this.data[index].transaction_type=='cashout'){
+                      this.data[index].bank_name = this.data[index].to_bank
+                      this.data[index].customer_account = '\''+this.data[index].to_account_no
+                      this.data[index].starlight_account_no = '\''+this.data[index].from_company_account
+                      this.data[index].transaction_process = 'CASH OUT'
+                    }
+                    this.data[index].transaction_method = 'Player'
+                    if (this.data[index].status == 'approved'){
+                      this.data[index].status = 'Complete'
+                    }
+                    if (this.data[index].status == 'cancelled'){
+                      this.data[index].status = 'Cancel'
+                    }
+                    if (this.data[index].status == 'requested'){
+                      this.data[index].status = 'Pending'
+                    }
+                  })
+                  this.loading = false
                 })
+              }else{
+                this.warning = true
                 this.loading = false
-              })
+              }
             },
         },
         async mounted() {
