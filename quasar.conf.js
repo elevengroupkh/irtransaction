@@ -1,6 +1,7 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-let baseurldev = 'http://devapiirtransaction.54.254.189.154.nip.io/' // http://devapiirtransaction.54.254.189.154.nip.io/ // https://apiirtransaction.elevenkh.com/
+//let baseurldev = 'http://devapiirtransaction.54.254.189.154.nip.io/' // http://devapiirtransaction.54.254.189.154.nip.io/ // https://apiirtransaction.elevenkh.com/
+let baseurldev = 'http://apiir.52.76.38.175.nip.io/'
 
 module.exports = function (ctx) {
   return {

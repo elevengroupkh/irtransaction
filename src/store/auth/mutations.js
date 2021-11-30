@@ -6,13 +6,13 @@ export function setUser (state, data) {
     if (data.role == 1){
       state.user.rolename = 'admin'
     }
-    if (data.role == 6){
+    if (data.role == 2){
       state.user.rolename = 'csstaff'
     }
     if (data.role == 7){
       state.user.rolename = 'csmanager'
     }
-    if (data.role == 8){
+    if (data.role == 3){
       state.user.rolename = 'csapproval'
     }
   } else {
