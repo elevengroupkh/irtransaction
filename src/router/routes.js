@@ -25,6 +25,8 @@ const routes = [
       { path: '/employee_salary_list', component: () => import('pages/employee_salary_list.vue') },
       { path: '/calendar', component: () => import('pages/calendar.vue') },
       { path: '/department', component: () => import('pages/department.vue') },
+      { path: '/wing_report', component: () => import('pages/wing_report.vue') },
+      { path: '/wing_report_detail', component: () => import('pages/wing_report_detail.vue') },
     ]
   }
 ]

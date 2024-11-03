@@ -7,12 +7,17 @@ const axiosInstance = axios.create({
   paramsSerializer: params => {
     return qs.stringify(params, { arrayFormat: 'repeat' })
   },
-  baseURL: '/'
+  baseURL: 'http://localhost:8400/'
 })
 
 axiosInstance.interceptors.request.use(function (config) {
     // Do something before request is sent
     //config.headers.Authorization = 'Bearer ' + LocalStorage.getItem('lp_token')
+    config.headers = {
+      'Content-Type': 'application/json',
+      'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
+    }
+    config.withCredentials = true;
     return config;
   }, function (error) {
     // Do something with request error
