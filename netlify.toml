@@ -1,11 +1,11 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://apiir.52.76.38.175.nip.io/api/:splat"
+  to = "http://apiirtestcashout.13.250.112.56.nip.io/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/sanctum/*"
-  to = "http://apiir.52.76.38.175.nip.io/sanctum/:splat"
+  to = "http://apiirtestcashout.13.250.112.56.nip.io/sanctum/:splat"
   status = 200
   force = true
