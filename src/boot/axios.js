@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   paramsSerializer: params => {
     return qs.stringify(params, { arrayFormat: 'repeat' })
   },
-  baseURL: 'http://localhost:8400/'
+  baseURL: '/'
 })
 
 axiosInstance.interceptors.request.use(function (config) {
