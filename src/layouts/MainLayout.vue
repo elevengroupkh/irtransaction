@@ -125,7 +125,7 @@
                 label="Transactions"
               >
                 <q-list class="q-pl-lg">
-                  <q-item
+                  <!--<q-item
                     active-class="tab-active"
                     to="/cashin"
                     class="q-ma-sm navigation-item"
@@ -139,7 +139,7 @@
                     <q-item-section>
                       Cash In
                     </q-item-section>
-                  </q-item>
+                  </q-item>-->
                   <q-item
                     active-class="tab-active"
                     to="/cashout"
